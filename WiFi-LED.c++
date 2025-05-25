@@ -1,6 +1,6 @@
 #include <WiFi.h>
 
-const char* targetSSID = "iPhone de Eros (2)"; // nome do hotspot
+const char* targetSSID = "iPhone de Eros (2)"; // nome exato do hotspot
 const int ledPin = 2; //GPIO 4 (LED onboard)
 const int rssiThreshold = -70; //limiar de sinal
 
@@ -10,7 +10,7 @@ void setup() {
   analogWrite(ledPin, LOW); // LED começa apagado
 
   WiFi.mode(WIFI_STA);
-  WiFi.disconnect(); // Garante que não está conectado a nenhuma rede
+  WiFi.disconnect(); // garante que não está conectado a nenhuma rede
   delay(100);
 }
 
@@ -47,5 +47,5 @@ void loop() {
     Serial.println("Rede não encontrada. LED APAGADO");
   }
 
-  delay(5000); // Aguarda 5 segundos
+  delay(5000); // aguarda 5 segundos
 }
