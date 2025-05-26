@@ -1,10 +1,8 @@
 # 📃MANUAL DO DESENVOLVEDOR:
 
-### O que foi necessário e como o projeto foi executado?
+O que foi necessário e como o projeto foi executado.
 
 <!--
-## **1. Ideação**💡
-- 
 *Mais detalhes no [nosso site](https://sites.google.com/cesar.school/g18-buscasilenciosa/status-report-1).
 -->
 
@@ -20,10 +18,6 @@
 
 - Motor vibratório 1027 (Vibracall)
 
-- Protoboard
-
-- Fios "macho-macho" e "macho-fêmea"
-
 ### Conhecimentos🧠
 
 - Circuitos de microcontroladores (como Arduino)
@@ -37,8 +31,6 @@
 - _Arduino IDE_: testes com o circuito
 
     - Board "ESP32 Dev Module"
-
-- _GitHub_ e _VSCode_: atualizações do repositório
 
 ## **Execução**
 
