@@ -32,28 +32,9 @@
 
 ![imagens do circuito](link)
 
-    #include <WiFi.h>
+    bloco de código
 
-Esse trecho do código inicializa a função wi-fi, que permite o ESP32 utilizar essa função no código.
-
-    const char* targetSSID = "InternetNet"; // Nome exato do hotspot
-    int motorPin = 2; // Pino PWM para acionar o motor
-    const int rssiThreshold = -80; // Sinal mais forte que isso = motor liga
-
-Essa parte do código determina o SSID da rede que o ESP32 irá buscar, nesse mesmo trecho determina também a porta que o motor utilizará e uma variável que será utilizada para usar a gradação do motor de vibração.
-
-    void setup() {       
-      Serial.begin(115200);
-      pinMode(motorPin, OUTPUT);
-      analogWrite(motorPin, 0); // Garante que o motor comece desligado
-      WiFi.mode(WIFI_STA);
-      WiFi.disconnect(true); // Limpa redes anteriores
-      delay(1000);
-    }
-
-Dentro do void setup:
-+ Serial.begin() - Determina a velocidade de 
-
+descrição do bloco de código
 
 ![imagens do funcionamento (passo a passo)](link)
 
