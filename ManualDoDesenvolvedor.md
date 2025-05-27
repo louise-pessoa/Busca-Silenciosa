@@ -32,7 +32,21 @@
 
 ![imagens do circuito](link)
 
-    bloco de código
+    #include <WiFi.h>
+Esse trecho do código ele inicializa a função wi-fi no ESP32.
+
+    const char* targetSSID = "InternetNet";
+    const char * password= "abcdefgh";
+Nessa parte define o nome da rede de internet e a senha da rede.
+    
+    int motorPin = 2;
+Essa linha define a porta qu o motor de vibração utilizará.    
+    
+    const int rssiThreshold = -80;
+    int indice=0;
+    bool redeEncontrada = false;
+Essas 3 variáveis que estão sendo inicializadas são utilizadas durante do decorrer do código e quando elas forem utilizadas explicaremos sua função.
+
 
 descrição do bloco de código
 
