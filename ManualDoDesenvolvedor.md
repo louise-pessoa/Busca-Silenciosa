@@ -14,6 +14,8 @@
 
 - Motor vibratório 1027 (Vibracall)
 
+- Transistor (interruptor)
+
 ### Conhecimentos🧠
 
 - Circuitos de microcontroladores (como Arduino)
@@ -26,103 +28,125 @@
 
 - _Arduino IDE_: testes com o circuito
 
-    - Board `ESP32 Dev Module`
+    - Board "ESP32 Dev Module"
 
 ## **Execução**
-<!--
+
+### Explicando o código principal `main.c++`
+
     #include <WiFi.h>
-Inicia a função Wi-Fi no ESP32;
+Inclui a biblioteca para conexão WiFi (necessária para placas como ESP32)
 
     const char* targetSSID = "InternetNet";
-    const char * password = "abcdefgh";
+    const char* password = "abcdefgh";
+Define o nome (SSID) e senha da rede WiFi que será monitorada
 
-- `const char* targetSSID` - Inicialização da constante do nome da rede;
-- `const char* password` - Inicialização da constante da senha da rede;
+    int motorPin = 2;
+Define o pino conectado ao motor (vibrador)
+ 
+    const int rssiThreshold = -80;
+Define o limite mínimo de intensidade de sinal (RSSI) para considerar o sinal utilizável
 
-        int motorPin = 2;
-        const int rssiThreshold = -80;
-        int indice=0;
-        bool redeEncontrada = false;
-
-- `int motorPin = 2` - Porta que o motor deve utilizar;
-
-- `const int rssiThreshold = -80` - RSSI limite que estamos utilizando;
-
-- `int indice=0` - Esse índice vai ser melhor explicado no momento de sua utilização, nesse momento essa variável está sendo inicializada;
-
-- `bool redeEncontrada = false` - Essa variável booleana está definindo o estado da variável;
-
-Continuando...
+    int indice = 0;
+    bool redeEncontrada = false;
+Variáveis de controle
 
     void setup() {
         Serial.begin(115200);
+  Inicia a comunicação serial para debug
+  
         pinMode(motorPin, OUTPUT);
+Define o pino do motor como saída
+  
         analogWrite(motorPin, 0);
+Garante que o motor inicie desligado
+    
         WiFi.mode(WIFI_STA);
-        WiFi.begin(targetSSID,password);
+Coloca o WiFi em modo "station", ou seja, cliente
 
-Dentro do void setup:
-
-- `Serial.begin(115200)` - Define a velocidade em que o ESP32 transmite informações;
-
-- `pinMode(motorPin, OUTPUT)` - Define a porta do motor e que ela será utilizada para saída de dados;
-
-- `analogWrite(motorPin, 0)` - Inicia o motor de vibração desligado;
-
-- `Wifi.mode(WIFI_STA)` - Define o modo de internet que o ESP32 utilizará. Nesse caso, é o modo Station, apenas para se conectar a outras redes;
-
-- `Wifi.begin(targetSSID, password)` - Faz com que o ESP32 se conecte a rede escolhida a partir da senha;
-
-Continuando...
+        WiFi.begin(targetSSID, password);
+Tenta conectar-se à rede especificada
 
     while(WiFi.status() != WL_CONNECTED){
+Aguarda até que a conexão com o WiFi seja estabelecida
+
         Serial.print('.');
         delay(1000);
-        }
-        redeEncontrada = true;
     }
-Dentro do void loop:
+Imprime ponto a cada segundo para indicar que está tentando conectar
 
-- `While(WiFi.status() != WL_CONNECTED)` - Confere se está conectado na rede ou não, se não estiver conectado redeEncontrada se torna true, mas se a rede for conectada irá seguir o código;
-
-- `Serial.print('-')` - Mostra no monitor serial;
-
-- `redeEncontrada = true` - Torna o estado da variável true;
-
-Continuando...
+    redeEncontrada = true;
+    }
+Quando conectado, marca que a rede foi encontrada
 
     void loop() {
-        ...
-    }
-Inicializa o void loop, trecho de código que fica se repetindo
-
-      int rssi=WiFi.RSSI();
-Nesse trecho é o local do código, no qual, o ESP32 capta o RSSI da rede
-
+        int rssi = WiFi.RSSI();
+Obtém o valor atual do sinal (RSSI) da rede conectada
+ 
     if (rssi <= rssiThreshold) {
-       analogWrite(motorPin, 0);
-       Serial.println("SINAL MUITO FRACO → MOTOR DESLIGADO");
-       Serial.println(rssi);
-    } else if {
+        analogWrite(motorPin, 255);
+Verifica se o sinal está abaixo do limite mínimo → desliga o motor
 
-Já desse trecho até...
-
-    } else { // rssi > -40 (mais perto de 0)
-       analogWrite(motorPin, 1);
-       Serial.println(rssi);
-       Serial.println("CELULAR MUITO PROXIMO → VIBRAÇÃO FORTE"); 
+        Serial.println("SINAL MUITO FRACO → MOTOR DESLIGADO");
+        Serial.println(rssi);
     }
+Mostra o valor do sinal
 
-Esse trecho, existe uma estrutura de condicionais que depende do RSSI da rede que a ESP32 está conectada. Quanto maior o RSSI, maior a intensidade da vibração do motor.
+    else if (rssi > rssiThreshold && rssi <= -60) {
+Sinal entre o limite mínimo e -60 → vibração fraca:
 
-    if (!redeEncontrada) {
-       analogWrite(motorPin, 0);
-       Serial.println("Rede não encontrada. MOTOR DESLIGADO");
+        analogWrite(motorPin, 120);
+Define intensidade da vibração (valor PWM)
+
+        Serial.println(rssi);
+        Serial.println("CELULAR DISTANTE → VIBRAÇÃO FRACA");
+    } else if (rssi > -60 && rssi <= -40) {
+Sinal entre -60 e -40 → vibração média:
+
+        analogWrite(motorPin, 70);
+        Serial.println(rssi);
+        Serial.println("CELULAR PRÓXIMO → VIBRAÇÃO MÉDIA");
+    } else if (rssi > -40 && rssi < 0) {
+Sinal acima de -40 → vibração forte:
+
+        analogWrite(motorPin, 1);
+PWM baixo, mas motor forte (ajuste pode ser necessário de acordo com as medidas e materiais do protótipo).
+
+        Serial.println(rssi);
+        Serial.println("CELULAR MUITO PRÓXIMO → VIBRAÇÃO FORTE"); 
+    } else {
+        analogWrite(motorPin, 255);
+        Serial.println("Rede não encontrada. MOTOR DESLIGADO");
     }
+  Caso a rede não tenha sido encontrada no início, garante que o motor esteja desligado.
 
-Essa parte vai depender da rede, como no começo do código tem a verificação para ver se a rede está conectada, nessa parte se a rede estiver desconectada faz com que o motor vibratório desligue.
+    delay(1000);
+    }
+Aguarda 1 segundo antes de verificar novamente.
+
+### Montagem do circuito
+
+<img alt='Foto do circuito (visão de cima)' width='500' height='500' src='fotoCircuitoCima.png'>
+
+#### Pinos no ESP32, nos sensores e nos atuadores:
+
+<img alt='Foto dos pinos do ESP32' width='300' height='300' src='fotoPinosESP32.png'>
+
+- Motor ->
+    - Fio <span style="color: yellow;">amarelo</span> no `3v3` do ESP32
+    - Fio <span style="color: green;">verde</span> no `pino esquerdo` do transistor (Foto 2);
+
+<img alt='Foto dos pinos do transistor' width='300' height='300' src='fotoPinosTransistor.png'>
+
+- Transistor ->
+
+    - Fio <span style="color: green;">verde</span> do motor vibratório no `pino esquerdo`;
+
+    - Fio <span style="color: gray;">cinza</span> do `D2` do ESP32 no `pino central`;
+
+    - Fio <span style="color: blue;">azul</span> do `GND` do ESP32 no `pino direito`.
+
+<!--
 -->
 
-![imagens do funcionamento (passo a passo) e do circuito](link)
-
-Mais detalhes da ideação, testes e execução no nosso site [Busca SIlenciosa](https://sites.google.com/cesar.school/g18-buscasilenciosa/status-report-1).
+*Mais detalhes da ideação, testes e execução no nosso site [Busca Silenciosa](https://sites.google.com/cesar.school/g18-buscasilenciosa/status-report-1).

@@ -1,58 +1,48 @@
-//teste de Louise (fonte: DeepSeek)
-
 #include <WiFi.h>
-const char* targetSSID = "A53 de Louise";
+
+const char* targetSSID = "InternetNet";
+const char* password = "abcdefgh";
 int motorPin = 2;
 const int rssiThreshold = -80;
+int indice = 0;
+bool redeEncontrada = false;
 
 void setup() {
     Serial.begin(115200);
     pinMode(motorPin, OUTPUT);
-    analogWrite(motorPin, 0);
+    analogWrite(motorPin, 255);
     WiFi.mode(WIFI_STA);
-    WiFi.disconnect(true);
+    WiFi.begin(targetSSID, password);
+
+    while(WiFi.status() != WL_CONNECTED){
+        Serial.print('.');
+        delay(1000);
+    }
+    redeEncontrada = true;
 }
 
 void loop() {
-    Serial.println("Escaneando redes Wi-Fi...");
-    int numRedes = WiFi.scanNetworks();
-    bool redeEncontrada = false;
-    
-    for (int i = 0; i < numRedes; ++i) {
-        if (WiFi.SSID(i) == targetSSID) {
-            redeEncontrada = true;
-            int rssi = WiFi.RSSI(i);
-            
-            Serial.print("REDE ALVO ENCONTRADA: ");
-            Serial.print(targetSSID);
-            Serial.print(" | RSSI: ");
-            Serial.print(rssi);
-            Serial.println(" dBm");
+    int rssi = WiFi.RSSI();
 
-            if (rssi <= rssiThreshold) {
-                analogWrite(motorPin, 0);
-                Serial.println("SINAL MUITO FRACO → MOTOR DESLIGADO");
-            } 
-            else if (rssi > rssiThreshold && rssi <= -60) {
-                analogWrite(motorPin, 85);
-                Serial.println("CELULAR DISTANTE → VIBRAÇÃO FRACA");
-            } 
-            else if (rssi > -60 && rssi <= -40) {
-                analogWrite(motorPin, 170);
-                Serial.println("CELULAR PROXIMO → VIBRAÇÃO MÉDIA");
-            } 
-            else { // rssi > -40 (mais perto de 0)
-                analogWrite(motorPin, 255);
-                Serial.println("CELULAR MUITO PROXIMO → VIBRAÇÃO FORTE");
-            }
-            break; // Sai do for depois de encontrar a rede alvo
-        }
-    }
-    
-    if (!redeEncontrada) {
+    if (rssi <= rssiThreshold) {
         analogWrite(motorPin, 0);
+        Serial.println("SINAL MUITO FRACO → MOTOR DESLIGADO");
+        Serial.println(rssi);
+    } else if (rssi > rssiThreshold && rssi <= -60) {
+        analogWrite(motorPin, 120);
+        Serial.println(rssi);
+        Serial.println("CELULAR DISTANTE → VIBRAÇÃO FRACA");
+    } else if (rssi > -60 && rssi <= -40) {
+        analogWrite(motorPin, 75);
+        Serial.println(rssi);
+        Serial.println("CELULAR PRÓXIMO → VIBRAÇÃO MÉDIA");
+    } else if (rssi > -40 && rssi < 0) {
+        analogWrite(motorPin, 1);
+        Serial.println(rssi);
+        Serial.println("CELULAR MUITO PRÓXIMO → VIBRAÇÃO FORTE"); 
+    } else {
+        analogWrite(motorPin, 255);
         Serial.println("Rede não encontrada. MOTOR DESLIGADO");
     }
-    delay(2000); // Espera 2 segundos entre varreduras
-    WiFi.scanDelete(); // Limpa resultados anteriores
+    delay(1000);
 }
