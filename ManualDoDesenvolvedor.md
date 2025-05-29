@@ -92,22 +92,22 @@ Verifica se o sinal está abaixo do limite mínimo → desliga o motor
     }
 Mostra o valor do sinal
 
-    else if (rssi > rssiThreshold && rssi <= -60) {
-Sinal entre o limite mínimo e -60 → vibração fraca:
+    else if (rssi > rssiThreshold && rssi <= -65) {
+Sinal entre o limite mínimo e -65 → vibração fraca:
 
         analogWrite(motorPin, 120);
 Define intensidade da vibração (valor PWM)
 
         Serial.println(rssi);
         Serial.println("CELULAR DISTANTE → VIBRAÇÃO FRACA");
-    } else if (rssi > -60 && rssi <= -40) {
-Sinal entre -60 e -40 → vibração média:
+    } else if (rssi > -65 && rssi <= -50) {
+Sinal entre -65 e -50 → vibração média:
 
         analogWrite(motorPin, 70);
         Serial.println(rssi);
         Serial.println("CELULAR PRÓXIMO → VIBRAÇÃO MÉDIA");
-    } else if (rssi > -40 && rssi < 0) {
-Sinal acima de -40 → vibração forte:
+    } else if (rssi > -50 && rssi < 0) {
+Sinal acima de -50 → vibração forte:
 
         analogWrite(motorPin, 1);
 PWM baixo, mas motor forte (ajuste pode ser necessário de acordo com as medidas e materiais do protótipo).
@@ -118,7 +118,7 @@ PWM baixo, mas motor forte (ajuste pode ser necessário de acordo com as medidas
         analogWrite(motorPin, 255);
         Serial.println("Rede não encontrada. MOTOR DESLIGADO");
     }
-  Caso a rede não tenha sido encontrada no início, garante que o motor esteja desligado.
+Caso a rede não tenha sido encontrada no início, garante que o motor esteja desligado.
 
     delay(1000);
     }
