@@ -129,7 +129,9 @@ Aguarda 1 segundo antes de verificar novamente.
 #### Pinos no ESP32, nos sensores e nos atuadores:
 
 - Motor ->
+
     - Fio amarelo no `3v3` do ESP32
+
     - Fio verde no `pino esquerdo` do transistor;
 
 - Transistor ->
