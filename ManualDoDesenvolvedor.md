@@ -126,27 +126,18 @@ Aguarda 1 segundo antes de verificar novamente.
 
 ### Montagem do circuito
 
-<img alt='Foto do circuito (visão de cima)' width='500' height='500' src='fotoCircuitoCima.png'>
-
 #### Pinos no ESP32, nos sensores e nos atuadores:
 
-<img alt='Foto dos pinos do ESP32' width='300' height='300' src='fotoPinosESP32.png'>
-
 - Motor ->
-    - Fio <span style="color: yellow;">amarelo</span> no `3v3` do ESP32
-    - Fio <span style="color: green;">verde</span> no `pino esquerdo` do transistor (Foto 2);
-
-<img alt='Foto dos pinos do transistor' width='300' height='300' src='fotoPinosTransistor.png'>
+    - Fio amarelo no `3v3` do ESP32
+    - Fio verde no `pino esquerdo` do transistor;
 
 - Transistor ->
 
-    - Fio <span style="color: green;">verde</span> do motor vibratório no `pino esquerdo`;
+    - Fio verde do motor vibratório no `pino esquerdo`;
 
-    - Fio <span style="color: gray;">cinza</span> do `D2` do ESP32 no `pino central`;
+    - Fio cinza do `D2` do ESP32 no `pino central`;
 
-    - Fio <span style="color: blue;">azul</span> do `GND` do ESP32 no `pino direito`.
-
-<!--
--->
+    - Fio azul do `GND` do ESP32 no `pino direito`.
 
 *Mais detalhes da ideação, testes e execução no nosso site [Busca Silenciosa](https://sites.google.com/cesar.school/g18-buscasilenciosa/status-report-1).

@@ -1,7 +1,5 @@
 # BUSCA SILENCIOSA: Manual de Jogo Inclusivo
 
-![Banner Busca Silenciosa](bannerBuscaSilenciosa.png)
-
 ## ✨ APRESENTAÇÃO ✨
 
 Busca Silenciosa é um jogo pensado para ser inclusivo para pessoas com deficiência auditiva. A proposta é gerar igualdade nas brincadeiras, por meio de um colete com motor vibratório que substitui os estímulos auditivos por estímulos táteis. É uma forma de brincar que respeita as diferenças sem tornar ninguém invisível (mesmo que na brincadeira o Caçador não enxergue!).
@@ -67,5 +65,3 @@ Esse jogo foi criado para derrubar barreiras. Ele permite que pessoas com defici
 ## 📲 MAIS INFORMAÇÕES 📲
 
 Para mais informações, visite o [nosso site](https://sites.google.com/cesar.school/g18-buscasilenciosa).
-
-<center><img alt='Logo Busca Silenciosa' width='300' height='300' src='logoBuscaSilenciosa.png'></center>
