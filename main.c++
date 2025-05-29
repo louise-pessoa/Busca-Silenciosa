@@ -28,15 +28,15 @@ void loop() {
         analogWrite(motorPin, 0);
         Serial.println("SINAL MUITO FRACO → MOTOR DESLIGADO");
         Serial.println(rssi);
-    } else if (rssi > rssiThreshold && rssi <= -60) {
+    } else if (rssi > rssiThreshold && rssi <= -65) {
         analogWrite(motorPin, 120);
         Serial.println(rssi);
         Serial.println("CELULAR DISTANTE → VIBRAÇÃO FRACA");
-    } else if (rssi > -60 && rssi <= -40) {
+    } else if (rssi > -65 && rssi <= -50) {
         analogWrite(motorPin, 75);
         Serial.println(rssi);
         Serial.println("CELULAR PRÓXIMO → VIBRAÇÃO MÉDIA");
-    } else if (rssi > -40 && rssi < 0) {
+    } else if (rssi > -50 && rssi < 0) {
         analogWrite(motorPin, 1);
         Serial.println(rssi);
         Serial.println("CELULAR MUITO PRÓXIMO → VIBRAÇÃO FORTE"); 
